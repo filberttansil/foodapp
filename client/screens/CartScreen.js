@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import { featured } from "../constants";
@@ -11,6 +11,7 @@ import {
   selectCartItems,
   selectCartTotal,
 } from "../slices/CartSlice";
+import { urlFor } from "../sanity";
 export default function CartScreen() {
   const deliveryFee = 2;
   const restaurant = useSelector(selectRestaurant);
@@ -20,7 +21,7 @@ export default function CartScreen() {
   const cartItems = useSelector(selectCartItems);
   const [groupItems, setGroupItems] = useState([]);
 
-  useEffect(() => {
+  useMemo(() => {
     const items = cartItems.reduce((group, item) => {
       if (group[item.id]) {
         group[item.id].push(item);
@@ -45,7 +46,7 @@ export default function CartScreen() {
         </TouchableOpacity>
         <View>
           <Text className="text-center font-bold text-xl">Your cart</Text>
-          <Text className="text-center text-gray-500">{restaurant.name}</Text>
+          <Text className="text-center text-gray-500">{restaurant?.name}</Text>
         </View>
       </View>
       {/* Delivery Time */}
@@ -84,7 +85,10 @@ export default function CartScreen() {
                 >
                   {items.length}x
                 </Text>
-                <Image className="w-16 h-16 rounded-full" source={dish.image} />
+                <Image
+                  className="w-16 h-16 rounded-full"
+                  source={{ uri: urlFor(dish.image).url() }}
+                />
                 <Text className="font-semibold text-lg">{dish.name}</Text>
               </View>
               <View className="flex-row items-center space-x-2">

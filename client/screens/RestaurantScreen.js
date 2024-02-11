@@ -6,24 +6,57 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import DishRow from "../components/DishRow";
 import BasketIcon from "../components/BasketIcon";
-import { useDispatch } from "react-redux";
-import { setRestaurant } from "../slices/RestaurantSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectRestaurant, setRestaurant } from "../slices/RestaurantSlice";
+import { emptyCart } from "../slices/CartSlice";
+import { urlFor } from "../sanity";
 export default function RestaurantScreen() {
-  const { params } = useRoute();
-  let { item } = params;
-  const dispatch = useDispatch();
   const navigation = useNavigation();
-  useEffect(() => {
-    if (item && item.id) {
-      dispatch(setRestaurant({ ...item }));
+  const dispatch = useDispatch();
+  const {
+    params: {
+      id,
+      title,
+      imgUrl,
+      rating,
+      reviews,
+      type,
+      address,
+      description,
+      dishes,
+      lng,
+      lat,
+    },
+  } = useRoute();
+  const restaurant = useSelector(selectRestaurant);
+
+  () => {
+    if (restaurant && restaurant.id != id) {
+      dispatch(emptyCart());
     }
-  }, []);
+    dispatch(
+      setRestaurant({
+        id,
+        title,
+        imgUrl,
+        rating,
+        reviews,
+        type,
+        address,
+        description,
+        dishes,
+        lng,
+        lat,
+      })
+    );
+  },
+    [];
 
   return (
     <>
@@ -31,7 +64,10 @@ export default function RestaurantScreen() {
       <StatusBar style="light" />
       <ScrollView>
         <View className="relative">
-          <Image source={item.image} className="w-full h-72" />
+          <Image
+            source={{ uri: urlFor(imgUrl).url() }}
+            className="w-full h-72"
+          />
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             className="absolute top-14 left-4 bg-gray-50 p-2 rounded-full shadow-sm"
@@ -40,22 +76,29 @@ export default function RestaurantScreen() {
           </TouchableOpacity>
         </View>
         <View className="rounded-t-3xl px-5 pt-4 -mt-12 bg-white space-y-1">
-          <Text className="text-3xl font-semibold">{item.name}</Text>
+          <Text className="text-3xl font-semibold">{title}</Text>
           <View className="flex-row space-x-1 items-center">
             <Image
               source={require("../assets/images/fullStar.png")}
               className="h-4 w-4"
             />
-            <Text className="text-gray-800">({item.review} review) · </Text>
+            <Text className="text-gray-800">({reviews} review) · </Text>
             <Icon.MapPin stroke={"gray"} width={15} height={15} />
-            <Text className="text-gray-800">Nearby · {item.address}</Text>
+            <Text className="text-gray-800">Nearby · {address}</Text>
           </View>
-          <Text className="pt-1 text-gray-500">{item.description}</Text>
+          <Text className="pt-1 text-gray-500">{description}</Text>
         </View>
         <View className="bg-white pb-36">
           <Text className="px-4 py-4 font-bold text-2xl">Menu</Text>
-          {item.dishes.map((dish, idx) => (
-            <DishRow key={idx} dish={dish} />
+          {dishes.map((dish) => (
+            <DishRow
+              key={dish._id}
+              id={dish._id}
+              name={dish.name}
+              description={dish.description}
+              price={dish.price}
+              image={dish.image}
+            />
           ))}
         </View>
       </ScrollView>

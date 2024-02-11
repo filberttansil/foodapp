@@ -7,30 +7,33 @@ import {
   removeFromCart,
   selectCartItemsById,
 } from "../slices/CartSlice";
+import { urlFor } from "../sanity";
+import { useEffect } from "react";
 
-export default function DishRow({ dish }) {
+export default function DishRow({ name, description, id, price, image }) {
   const dispatch = useDispatch();
-  const totalItems = useSelector((state) =>
-    selectCartItemsById(state, dish.id)
-  );
+  const totalItems = useSelector((state) => selectCartItemsById(state, id));
   const handleIncrease = () => {
-    dispatch(addToCart({ ...dish }));
+    dispatch(addToCart({ id, name, price, image, description }));
   };
   const handleDecrease = () => {
-    dispatch(removeFromCart({ id: dish.id }));
+    dispatch(removeFromCart({ id }));
   };
 
   return (
     <View className="flex-row rounded-3xl mx-2 shadow-2xl mb-3 p-3 bg-white">
-      <Image source={dish.image} className="w-24 h-24 rounded-xl" />
+      <Image
+        source={{ uri: urlFor(image).url() }}
+        className="w-24 h-24 rounded-xl"
+      />
       <View className="flex flex-1 space-y-3">
         <View className="pl-3">
-          <Text className="text-xl">{dish.name}</Text>
-          <Text className="text-gray-700">{dish.description}</Text>
+          <Text className="text-xl">{name}</Text>
+          <Text className="text-gray-700">{description}</Text>
         </View>
 
         <View className="flex-row pl-3 items-center justify-between">
-          <Text className="text-lg font-bold text-gray-700">${dish.price}</Text>
+          <Text className="text-lg font-bold text-gray-700">${price}</Text>
           <TouchableOpacity
             onPress={handleDecrease}
             disabled={!totalItems.length}

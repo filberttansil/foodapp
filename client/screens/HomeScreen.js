@@ -1,5 +1,5 @@
 import { View, Text, TextInput, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import * as Icon from "react-native-feather";
@@ -7,9 +7,15 @@ import { themeColors } from "../theme";
 import Categories from "../components/Categories";
 import { featured } from "../constants";
 import FeaturedRow from "../components/FeaturedRow";
+import { getFeaturedRestaurant } from "../api";
 export default function HomeScreen() {
-  const [data, setData] = useState("");
-  const featuredData = [featured, featured, featured, featured, featured];
+  const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
+
+  useEffect(() => {
+    getFeaturedRestaurant().then((data) => {
+      setFeaturedRestaurants(data);
+    });
+  }, []);
   return (
     <SafeAreaView className="bg-white">
       <View className="flex-row items-center space-x-2 px-4 pb-2">
@@ -42,10 +48,12 @@ export default function HomeScreen() {
 
         {/* Featured */}
         <View className="mt-5">
-          {featuredData.map((item, index) => {
+          {featuredRestaurants?.map((item) => {
             return (
               <FeaturedRow
-                key={index}
+                key={item._id}
+                id={item._id}
+                featuredCategory={item._type}
                 title={item.title}
                 restaurants={item.restaurants}
                 description={item.description}

@@ -13,8 +13,8 @@ export default function DeliveryScreen() {
     <View className="flex-1">
       <MapView
         initialRegion={{
-          latitude: resturant.lat,
-          longitude: resturant.lng,
+          latitude: resturant?.lat,
+          longitude: resturant?.lng,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
@@ -22,9 +22,9 @@ export default function DeliveryScreen() {
         className="flex-1"
       >
         <Marker
-          coordinate={{ latitude: resturant.lat, longitude: resturant.lng }}
-          title={resturant.name}
-          description={resturant.description}
+          coordinate={{ latitude: resturant?.lat, longitude: resturant?.lng }}
+          title={resturant?.name}
+          description={resturant?.description}
           pinColor={themeColors.bgColor(1)}
         />
       </MapView>
@@ -58,13 +58,13 @@ export default function DeliveryScreen() {
             <Image
               style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
               className="w-16 h-16 rounded-full"
-              source={require("../assets/images/deliveryGuy.png")}
+              source={require("../assets/images/deliveryGuy.jpeg")}
             />
           </View>
 
           <View className="flex-1 ml-3">
             <Text className="text-white text-lg font-extrabold">
-              Syed Noman
+              Filbert Tansil
             </Text>
             <Text className="text-white font-bold">Your Rider</Text>
           </View>
