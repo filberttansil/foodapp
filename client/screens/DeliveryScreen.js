@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
 import { themeColors } from "../theme";
@@ -7,14 +7,15 @@ import * as Icon from "react-native-feather";
 import { useSelector } from "react-redux";
 import { selectRestaurant } from "../slices/RestaurantSlice";
 export default function DeliveryScreen() {
-  const resturant = useSelector(selectRestaurant);
+  const restaurant = useSelector(selectRestaurant);
   const navigation = useNavigation();
+  const coordinate = [3.5952, 98.6722];
   return (
     <View className="flex-1">
       <MapView
         initialRegion={{
-          latitude: resturant?.lat,
-          longitude: resturant?.lng,
+          latitude: coordinate[0],
+          longitude: coordinate[1],
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
@@ -22,9 +23,9 @@ export default function DeliveryScreen() {
         className="flex-1"
       >
         <Marker
-          coordinate={{ latitude: resturant?.lat, longitude: resturant?.lng }}
-          title={resturant?.name}
-          description={resturant?.description}
+          coordinate={{ latitude: coordinate[0], longitude: coordinate[1] }}
+          title={restaurant?.title}
+          description={restaurant?.description}
           pinColor={themeColors.bgColor(1)}
         />
       </MapView>

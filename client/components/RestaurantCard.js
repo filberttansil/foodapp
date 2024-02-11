@@ -39,8 +39,12 @@ export default function RestaurantCard({
       }
     >
       <View
-        style={{ shadowColor: themeColors.bgColor(0.2), shadowRadius: 7 }}
-        className={"mr-6 bg-white rounded-3xl shadow-lg"}
+        style={{
+          shadowColor: themeColors.bgColor(0.2),
+          shadowRadius: 7,
+          backgroundColor: themeColors.white,
+        }}
+        className={"mr-6 rounded-3xl shadow-lg"}
       >
         <Image
           className="h-36 w-64 rounded-t-3xl"

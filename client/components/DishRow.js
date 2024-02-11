@@ -21,7 +21,10 @@ export default function DishRow({ name, description, id, price, image }) {
   };
 
   return (
-    <View className="flex-row rounded-3xl mx-2 shadow-2xl mb-3 p-3 bg-white">
+    <View
+      className="flex-row rounded-3xl mx-2 shadow-2xl mb-3 p-3 "
+      style={{ backgroundColor: themeColors.white }}
+    >
       <Image
         source={{ uri: urlFor(image).url() }}
         className="w-24 h-24 rounded-xl"

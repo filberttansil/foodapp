@@ -18,6 +18,7 @@ import { emptyCart } from "../slices/CartSlice";
 import { urlFor } from "../sanity";
 export default function RestaurantScreen() {
   const navigation = useNavigation();
+  const restaurant = useSelector(selectRestaurant);
   const dispatch = useDispatch();
   const {
     params: {
@@ -34,9 +35,8 @@ export default function RestaurantScreen() {
       lat,
     },
   } = useRoute();
-  const restaurant = useSelector(selectRestaurant);
 
-  () => {
+  useEffect(() => {
     if (restaurant && restaurant.id != id) {
       dispatch(emptyCart());
     }
@@ -55,27 +55,33 @@ export default function RestaurantScreen() {
         lat,
       })
     );
-  },
-    [];
+  }, []);
 
   return (
     <>
       <BasketIcon />
       <StatusBar style="light" />
-      <ScrollView>
-        <View className="relative">
+      <ScrollView style={{ backgroundColor: themeColors.white }}>
+        <View
+          style={{ backgroundColor: themeColors.white }}
+          className="relative"
+        >
           <Image
             source={{ uri: urlFor(imgUrl).url() }}
             className="w-full h-72"
           />
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            className="absolute top-14 left-4 bg-gray-50 p-2 rounded-full shadow-sm"
+            style={{ backgroundColor: themeColors.white }}
+            className="absolute top-14 left-4  p-2 rounded-full shadow-sm"
           >
             <Icon.ArrowLeft stroke={themeColors.bgColor(1)} strokeWidth={3} />
           </TouchableOpacity>
         </View>
-        <View className="rounded-t-3xl px-5 pt-4 -mt-12 bg-white space-y-1">
+        <View
+          style={{ backgroundColor: themeColors.white }}
+          className="rounded-t-3xl px-5 pt-4 -mt-12  space-y-1"
+        >
           <Text className="text-3xl font-semibold">{title}</Text>
           <View className="flex-row space-x-1 items-center">
             <Image
@@ -88,7 +94,7 @@ export default function RestaurantScreen() {
           </View>
           <Text className="pt-1 text-gray-500">{description}</Text>
         </View>
-        <View className="bg-white pb-36">
+        <View style={{ backgroundColor: themeColors.white }} className=" pb-36">
           <Text className="px-4 py-4 font-bold text-2xl">Menu</Text>
           {dishes.map((dish) => (
             <DishRow

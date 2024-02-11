@@ -33,8 +33,10 @@ export default function CartScreen() {
     setGroupItems(items);
   }, [cartItems]);
 
+  if (!cartItems.length) navigation.goBack();
+
   return (
-    <View className="bg-white flex-1">
+    <View style={{ backgroundColor: themeColors.white }} className=" flex-1">
       {/* Top Button */}
       <View className="relative py-4">
         <TouchableOpacity
@@ -46,7 +48,7 @@ export default function CartScreen() {
         </TouchableOpacity>
         <View>
           <Text className="text-center font-bold text-xl">Your cart</Text>
-          <Text className="text-center text-gray-500">{restaurant?.name}</Text>
+          <Text className="text-center text-gray-500">{restaurant?.title}</Text>
         </View>
       </View>
       {/* Delivery Time */}
@@ -68,15 +70,17 @@ export default function CartScreen() {
       {/* Card */}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        className="bg-white pt-5"
+        className=" pt-5"
         contentContainerStyle={{ paddingBottom: 50 }}
+        style={{ backgroundColor: themeColors.white }}
       >
         {Object.entries(groupItems).map(([key, items]) => {
           let dish = items[0];
           return (
             <View
               key={key}
-              className="flex-row justify-between space-x-3 m-2 px-6 py-3 rounded-3xl bg-white shadow-md"
+              style={{ backgroundColor: themeColors.white }}
+              className="flex-row justify-between space-x-3 m-2 px-6 py-3 rounded-3xl shadow-md"
             >
               <View className="flex-row items-center space-x-2">
                 <Text

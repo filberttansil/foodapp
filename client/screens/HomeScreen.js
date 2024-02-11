@@ -17,7 +17,7 @@ export default function HomeScreen() {
     });
   }, []);
   return (
-    <SafeAreaView className="bg-white">
+    <SafeAreaView style={{ backgroundColor: themeColors.white }}>
       <View className="flex-row items-center space-x-2 px-4 pb-2">
         <View className="flex-1 flex-row items-center space-x-2 p-3 border rounded-full border-gray-300">
           <Icon.Search height={25} width={25} stroke={"gray"} />
@@ -28,7 +28,7 @@ export default function HomeScreen() {
           />
           <View className="flex-row items-center border-0 border-l-2 border-gray-300 pl-2 space-x-1">
             <Icon.MapPin height={25} width={25} stroke={"gray"} />
-            <Text>New York, NYC</Text>
+            <Text>Medan</Text>
           </View>
         </View>
         <View
