@@ -1,4 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
+console.warn = () => {};
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import { useDispatch, useSelector } from "react-redux";

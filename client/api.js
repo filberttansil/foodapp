@@ -41,3 +41,8 @@ export const getFeaturedRestaurantById = (id) => {
     { id }
   );
 };
+
+export const searchRestaurant = (searchQuery) => {
+  return sanityQuery(`*[_type == 'restaurant' && name match "${searchQuery}*"]
+  `);
+};
