@@ -43,6 +43,13 @@ export const getFeaturedRestaurantById = (id) => {
 };
 
 export const searchRestaurant = (searchQuery) => {
-  return sanityQuery(`*[_type == 'restaurant' && name match "${searchQuery}*"]
+  return sanityQuery(`*[_type == 'restaurant' && name match "${searchQuery}*"]{
+    ...,
+    dishes[]->{
+      ...
+    },type->{
+    name
+    }
+  }
   `);
 };
