@@ -5,7 +5,6 @@ import { StatusBar } from "expo-status-bar";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import Categories from "../components/Categories";
-import { featured } from "../constants";
 import FeaturedRow from "../components/FeaturedRow";
 import { getFeaturedRestaurant } from "../api";
 import { useNavigation } from "@react-navigation/native";
@@ -24,7 +23,7 @@ export default function HomeScreen() {
           <Icon.Search height={25} width={25} stroke={"gray"} />
           <TextInput
             onPressIn={() => navigation.navigate("Search")}
-            placeholder="Restaurants"
+            placeholder="Resto"
             className="flex-1"
             keyboardType="default"
           />
